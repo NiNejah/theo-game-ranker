@@ -1,17 +1,48 @@
 <section class="games-page">
   <header class="games-page__header">
-    <h1 class="games-page__title">Top Rated Games</h1>
+    <!--
+      EXERCISE 1 — Interpolation
+      The class declares: protected readonly title = 'Top Rated Games';
+      Replace the hardcoded text below with the value of `title` using
+      double curly braces: {{ title }}
+    -->
+    <h1 class="games-page__title">Hardcoded title — fix me</h1>
+
+    <!--
+      EXERCISE 4 — Property binding [disabled]
+      The Refresh button stays clickable even while games are being fetched.
+      Bind its [disabled] attribute to loading() so it's disabled while loading.
+    -->
+    <button mat-raised-button color="primary" (click)="onRefresh()">
+      Refresh
+    </button>
+
     <app-games-search (searchTermChange)="onSearchChange($event)" />
   </header>
 
-  @if (loading()) {
-    <div class="games-page__loading">
-      <mat-progress-spinner mode="indeterminate" diameter="48" />
-    </div>
-  } @else {
-    <app-games-grid
-      [games]="filteredGames()"
-      (gameSelected)="onGameSelected($event)"
-    />
-  }
+  <!--
+    EXERCISE 2 — Conditional rendering with @if
+    Right now the grid is always shown — even before games have loaded.
+    Wrap the <app-games-grid> below so a <mat-progress-spinner> shows while
+    loading() is true, and the grid shows otherwise.
+
+      @if (loading()) {
+        <mat-progress-spinner mode="indeterminate" diameter="48" />
+      } @else {
+        <app-games-grid ... />
+      }
+  -->
+  <app-games-grid
+    [games]="filteredGames()"
+    (gameSelected)="onGameSelected($event)"
+  />
+
+  <!--
+    EXERCISE 3 — List rendering with @for
+    Replace the placeholder paragraph with a <ul> that loops over highlights()
+    (the top 3 filtered games) and renders each game's name in an <li>.
+  -->
+  <p class="games-page__highlights-empty">
+    No highlights yet — fix me with &#64;for.
+  </p>
 </section>

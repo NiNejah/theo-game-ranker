@@ -1,7 +1,8 @@
 // EXERCISES — open /learn for the questions, /learn/answers for the solutions.
-// Each `// EXERCISE N` block is a piece you need to complete.
+// HTML exercises live in games-page.html, TypeScript exercises live in this file.
 
 import { Component, computed, inject, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
@@ -13,7 +14,7 @@ import { GamesSearch } from '../games-search/games-search';
 
 @Component({
   selector: 'app-games-page',
-  imports: [GamesSearch, GamesGrid, MatProgressSpinnerModule],
+  imports: [GamesSearch, GamesGrid, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './games-page.html',
   styleUrl: './games-page.scss',
 })
@@ -22,35 +23,47 @@ export class GamesPage {
   private readonly notifications = inject(NotificationService);
   private readonly router = inject(Router);
 
-  // EXERCISE 1 — Signals
-  // The template reads loading() to decide whether to show the spinner.
-  // Pick the right initial value below so the spinner appears on first paint.
+  // Used by Exercise 1 — display this in the <h1> via interpolation.
+  protected readonly title = 'Top Rated Games';
+
+  // Reactive state — signals automatically refresh the template when they change.
   protected readonly games = signal<Game[]>([]);
-  protected readonly loading = signal(false);
+  protected readonly loading = signal(true);
   protected readonly searchTerm = signal('');
 
-  // EXERCISE 2 — Computed signal
-  // Return games whose `name` includes `searchTerm` (case-insensitive).
-  // If `searchTerm` is empty/whitespace, return every game.
-  protected readonly filteredGames = computed<Game[]>(() => this.games());
+  // Filter games by the current search term.
+  protected readonly filteredGames = computed<Game[]>(() => {
+    const term = this.searchTerm().toLowerCase().trim();
+    const all = this.games();
+    if (!term) {
+      return all;
+    }
+    return all.filter((game) => game.name.toLowerCase().includes(term));
+  });
+
+  // First 3 filtered games — used by Exercise 3 (@for).
+  protected readonly highlights = computed<Game[]>(() => this.filteredGames().slice(0, 3));
 
   constructor() {
-    // EXERCISE 3 — Fetch + signals + RxJS interop
-    // Call this.gameService.getTopGames(); on `next` set both `games` and
-    // `loading`; on `error` show a snackbar via this.notifications and stop
-    // the spinner. Use takeUntilDestroyed() (from '@angular/core/rxjs-interop')
-    // so the subscription cleans up automatically.
+    // EXERCISE 5 — Get data from the RAWG API
+    // Call this.gameService.getTopGames() and update the `games` and `loading`
+    // signals when the response arrives. On error, call
+    // this.notifications.showError('Failed to load games.') and stop the spinner.
+    // TODO: implement.
   }
 
-  // EXERCISE 4a — Event handler (search)
-  // Store the new term in the `searchTerm` signal so the computed re-runs.
-  protected onSearchChange(_term: string): void {
-    // ...
+  // EXERCISE 6 — Wire the click handler
+  // Reload the games list. Tip: extract the fetch logic from Exercise 5 into a
+  // private loadGames() method so this becomes a one-liner.
+  protected onRefresh(): void {
+    // TODO: implement.
   }
 
-  // EXERCISE 4b — Event handler (navigation)
-  // Navigate to /games/:id using the injected Router.
-  protected onGameSelected(_game: Game): void {
-    // ...
+  protected onSearchChange(term: string): void {
+    this.searchTerm.set(term);
+  }
+
+  protected onGameSelected(game: Game): void {
+    this.router.navigate(['/games', game.id]);
   }
 }
