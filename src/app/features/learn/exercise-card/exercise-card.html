@@ -1,0 +1,37 @@
+@let ex = exercise();
+<article class="exercise" [attr.id]="'exercise-' + ex.id">
+  <header class="exercise__header">
+    <span class="exercise__number">Exercise {{ ex.id }}</span>
+    <h2 class="exercise__title">{{ ex.title }}</h2>
+    <mat-chip class="exercise__concept">{{ ex.concept }}</mat-chip>
+  </header>
+
+  <p class="exercise__file">
+    <code>{{ ex.file }}</code>
+  </p>
+
+  <p class="exercise__question">{{ ex.question }}</p>
+
+  @if (ex.hints.length) {
+    <details class="exercise__hints">
+      <summary>Hints</summary>
+      <ul>
+        @for (hint of ex.hints; track hint) {
+          <li>{{ hint }}</li>
+        }
+      </ul>
+    </details>
+  }
+
+  <section class="exercise__code">
+    <h3 class="exercise__code-label">Starter code</h3>
+    <pre><code>{{ ex.stub }}</code></pre>
+  </section>
+
+  @if (showAnswer()) {
+    <section class="exercise__code exercise__code--answer">
+      <h3 class="exercise__code-label">Solution</h3>
+      <pre><code>{{ ex.answer }}</code></pre>
+    </section>
+  }
+</article>

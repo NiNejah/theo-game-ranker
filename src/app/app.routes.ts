@@ -14,5 +14,19 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/games/game-detail/game-detail').then((m) => m.GameDetail),
   },
+  {
+    path: 'learn',
+    title: 'Game Ranker — Exercises',
+    loadComponent: () =>
+      import('./features/learn/learn-page/learn-page').then((m) => m.LearnPage),
+    data: { showAnswers: false },
+  },
+  {
+    path: 'learn/answers',
+    title: 'Game Ranker — Solutions',
+    loadComponent: () =>
+      import('./features/learn/learn-page/learn-page').then((m) => m.LearnPage),
+    data: { showAnswers: true },
+  },
   { path: '**', redirectTo: 'games' },
 ];

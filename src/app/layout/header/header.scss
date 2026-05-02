@@ -15,3 +15,11 @@
   font-weight: 600;
   letter-spacing: 0.5px;
 }
+
+.header__spacer {
+  flex: 1;
+}
+
+::ng-deep .header__link--active {
+  background: rgba(255, 255, 255, 0.18);
+}

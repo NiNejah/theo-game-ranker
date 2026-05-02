@@ -1,4 +1,21 @@
 <mat-toolbar color="primary" class="header">
   <mat-icon class="header__icon" aria-hidden="true">sports_esports</mat-icon>
   <span class="header__title">Game Ranker</span>
+  <span class="header__spacer"></span>
+  <a
+    mat-button
+    routerLink="/games"
+    routerLinkActive="header__link--active"
+  >Games</a>
+  <a
+    mat-button
+    routerLink="/learn"
+    routerLinkActive="header__link--active"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >Learn</a>
+  <a
+    mat-button
+    routerLink="/learn/answers"
+    routerLinkActive="header__link--active"
+  >Answers</a>
 </mat-toolbar>

@@ -1,0 +1,27 @@
+<section class="learn">
+  <header class="learn__header">
+    <h1 class="learn__title">
+      {{ showAnswers ? 'Exercise Solutions' : 'Angular Exercises' }}
+    </h1>
+    <p class="learn__intro">
+      @if (!showAnswers) {
+        Each exercise below points to a piece of
+        <code>games-page.ts</code> that has been left intentionally incomplete.
+        Complete them in order — the running app at
+        <a routerLink="/games">/games</a>
+        will fall back into place as you fix each one. When you're stuck, jump to
+        <a routerLink="/learn/answers">the solutions</a>.
+      } @else {
+        Reference solutions for every exercise on the
+        <a routerLink="/learn">exercises page</a>. Compare your code line by line and try to
+        articulate <em>why</em> each piece is needed.
+      }
+    </p>
+  </header>
+
+  <div class="learn__list">
+    @for (exercise of exercises; track exercise.id) {
+      <app-exercise-card [exercise]="exercise" [showAnswer]="showAnswers" />
+    }
+  </div>
+</section>
