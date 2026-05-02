@@ -9,6 +9,9 @@
       <mat-progress-spinner mode="indeterminate" diameter="48" />
     </div>
   } @else {
-    <app-games-grid [games]="filteredGames()" />
+    <app-games-grid
+      [games]="filteredGames()"
+      (gameSelected)="onGameSelected($event)"
+    />
   }
 </section>

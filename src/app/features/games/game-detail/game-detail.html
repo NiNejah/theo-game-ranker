@@ -1,0 +1,127 @@
+@if (loading()) {
+  <div class="detail__loading">
+    <mat-progress-spinner mode="indeterminate" diameter="48" />
+  </div>
+} @else if (game(); as g) {
+  <article class="detail">
+    <a routerLink="/games" mat-button class="detail__back">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Back to list</span>
+    </a>
+
+    @if (g.backgroundImage) {
+      <div
+        class="detail__hero"
+        [style.background-image]="'url(' + g.backgroundImage + ')'"
+        role="img"
+        [attr.aria-label]="g.name"
+      ></div>
+    }
+
+    <header class="detail__header">
+      <h1 class="detail__title">{{ g.name }}</h1>
+      <div class="detail__meta">
+        <span class="detail__meta-item">
+          <mat-icon>event</mat-icon>
+          {{ g.released ?? 'Unknown release' }}
+        </span>
+        <span class="detail__meta-item">
+          <mat-icon>star</mat-icon>
+          {{ g.rating.toFixed(2) }} ({{ g.ratingsCount }} votes)
+        </span>
+        @if (g.metacritic !== null) {
+          <span class="detail__meta-item">
+            <mat-icon>verified</mat-icon>
+            Metacritic {{ g.metacritic }}
+          </span>
+        }
+        @if (g.playtime > 0) {
+          <span class="detail__meta-item">
+            <mat-icon>schedule</mat-icon>
+            ~{{ g.playtime }}h average playtime
+          </span>
+        }
+        @if (g.esrbRating) {
+          <span class="detail__meta-item">
+            <mat-icon>shield</mat-icon>
+            {{ g.esrbRating }}
+          </span>
+        }
+      </div>
+    </header>
+
+    @if (g.genres.length) {
+      <section class="detail__section">
+        <h2 class="detail__section-title">Genres</h2>
+        <mat-chip-set>
+          @for (genre of g.genres; track genre) {
+            <mat-chip>{{ genre }}</mat-chip>
+          }
+        </mat-chip-set>
+      </section>
+    }
+
+    @if (g.platforms.length) {
+      <section class="detail__section">
+        <h2 class="detail__section-title">Platforms</h2>
+        <mat-chip-set>
+          @for (platform of g.platforms; track platform) {
+            <mat-chip>{{ platform }}</mat-chip>
+          }
+        </mat-chip-set>
+      </section>
+    }
+
+    @if (g.developers.length) {
+      <section class="detail__section">
+        <h2 class="detail__section-title">Developers</h2>
+        <p>{{ g.developers.join(', ') }}</p>
+      </section>
+    }
+
+    @if (g.publishers.length) {
+      <section class="detail__section">
+        <h2 class="detail__section-title">Publishers</h2>
+        <p>{{ g.publishers.join(', ') }}</p>
+      </section>
+    }
+
+    @if (g.description) {
+      <section class="detail__section">
+        <h2 class="detail__section-title">About</h2>
+        <p class="detail__description">{{ g.description }}</p>
+      </section>
+    }
+
+    @if (g.tags.length) {
+      <section class="detail__section">
+        <h2 class="detail__section-title">Tags</h2>
+        <mat-chip-set>
+          @for (tag of g.tags; track tag) {
+            <mat-chip>{{ tag }}</mat-chip>
+          }
+        </mat-chip-set>
+      </section>
+    }
+
+    @if (g.website) {
+      <section class="detail__section">
+        <a
+          mat-stroked-button
+          color="primary"
+          [href]="g.website"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <mat-icon>open_in_new</mat-icon>
+          <span>Official website</span>
+        </a>
+      </section>
+    }
+  </article>
+} @else {
+  <div class="detail__empty">
+    <p>Game not found.</p>
+    <a routerLink="/games" mat-button>Back to list</a>
+  </div>
+}

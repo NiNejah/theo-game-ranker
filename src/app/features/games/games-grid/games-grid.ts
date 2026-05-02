@@ -1,8 +1,9 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   ColDef,
   GridOptions,
+  RowClickedEvent,
   ValueFormatterParams,
   themeQuartz,
 } from 'ag-grid-community';
@@ -17,6 +18,13 @@ import { Game } from '../../../core/models/game.model';
 })
 export class GamesGrid {
   readonly games = input.required<Game[]>();
+  readonly gameSelected = output<Game>();
+
+  protected onRowClicked(event: RowClickedEvent<Game>): void {
+    if (event.data) {
+      this.gameSelected.emit(event.data);
+    }
+  }
 
   protected readonly theme = themeQuartz;
 
@@ -76,6 +84,7 @@ export class GamesGrid {
     paginationPageSizeSelector: [10, 25, 50],
     animateRows: true,
     rowHeight: 44,
+    rowClass: 'games-grid__row',
   };
 }
 

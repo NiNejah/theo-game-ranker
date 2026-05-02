@@ -3,13 +3,13 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { Game } from '../models/game.model';
+import { Game, GameDetail } from '../models/game.model';
 
 interface RawgPlatformWrapper {
   readonly platform: { readonly name: string };
 }
 
-interface RawgGenre {
+interface RawgNamed {
   readonly name: string;
 }
 
@@ -21,13 +21,23 @@ interface RawgGame {
   readonly ratings_count: number;
   readonly metacritic: number | null;
   readonly platforms: readonly RawgPlatformWrapper[] | null;
-  readonly genres: readonly RawgGenre[];
+  readonly genres: readonly RawgNamed[];
   readonly background_image: string | null;
 }
 
 interface RawgGamesResponse {
   readonly count: number;
   readonly results: readonly RawgGame[];
+}
+
+interface RawgGameDetail extends RawgGame {
+  readonly description_raw: string | null;
+  readonly website: string | null;
+  readonly developers: readonly RawgNamed[] | null;
+  readonly publishers: readonly RawgNamed[] | null;
+  readonly playtime: number;
+  readonly esrb_rating: RawgNamed | null;
+  readonly tags: readonly RawgNamed[] | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -46,6 +56,13 @@ export class GameService {
       .get<RawgGamesResponse>(`${this.baseUrl}/games`, { params })
       .pipe(map((response) => response.results.map(toGame)));
   }
+
+  getGameById(id: number): Observable<GameDetail> {
+    const params = new HttpParams().set('key', this.apiKey);
+    return this.http
+      .get<RawgGameDetail>(`${this.baseUrl}/games/${id}`, { params })
+      .pipe(map(toGameDetail));
+  }
 }
 
 function toGame(raw: RawgGame): Game {
@@ -59,5 +76,18 @@ function toGame(raw: RawgGame): Game {
     platforms: (raw.platforms ?? []).map((p) => p.platform.name),
     genres: raw.genres.map((g) => g.name),
     backgroundImage: raw.background_image,
+  };
+}
+
+function toGameDetail(raw: RawgGameDetail): GameDetail {
+  return {
+    ...toGame(raw),
+    description: raw.description_raw?.trim() ?? '',
+    website: raw.website?.trim() ?? '',
+    developers: (raw.developers ?? []).map((d) => d.name),
+    publishers: (raw.publishers ?? []).map((p) => p.name),
+    playtime: raw.playtime,
+    esrbRating: raw.esrb_rating?.name ?? null,
+    tags: (raw.tags ?? []).map((t) => t.name),
   };
 }

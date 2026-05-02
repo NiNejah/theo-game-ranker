@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 import { GameService } from '../../../core/services/game.service';
 import { NotificationService } from '../../../core/services/notification.service';
@@ -17,6 +18,7 @@ import { GamesSearch } from '../games-search/games-search';
 export class GamesPage {
   private readonly gameService = inject(GameService);
   private readonly notifications = inject(NotificationService);
+  private readonly router = inject(Router);
 
   protected readonly games = signal<Game[]>([]);
   protected readonly loading = signal(true);
@@ -51,5 +53,9 @@ export class GamesPage {
 
   protected onSearchChange(term: string): void {
     this.searchTerm.set(term);
+  }
+
+  protected onGameSelected(game: Game): void {
+    this.router.navigate(['/games', game.id]);
   }
 }
