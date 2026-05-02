@@ -1,0 +1,12 @@
+<mat-form-field appearance="outline" class="games-search">
+  <mat-label>Search games</mat-label>
+  <mat-icon matPrefix aria-hidden="true">search</mat-icon>
+  <input
+    matInput
+    type="text"
+    [formControl]="searchControl"
+    placeholder="Type a game name..."
+    matTooltip="Filter the table by game name"
+    matTooltipPosition="below"
+  />
+</mat-form-field>

@@ -1,0 +1,14 @@
+<section class="games-page">
+  <header class="games-page__header">
+    <h1 class="games-page__title">Top Rated Games</h1>
+    <app-games-search (searchTermChange)="onSearchChange($event)" />
+  </header>
+
+  @if (loading()) {
+    <div class="games-page__loading">
+      <mat-progress-spinner mode="indeterminate" diameter="48" />
+    </div>
+  } @else {
+    <app-games-grid [games]="filteredGames()" />
+  }
+</section>
