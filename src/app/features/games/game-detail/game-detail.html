@@ -9,32 +9,53 @@
       <span>Back to list</span>
     </a>
 
+    <!--
+      EXERCISE 8 — Property binding [src] and [alt]
+      The <img> below has no [src] and no [alt]. Add two bindings:
+      [src] should point at g.backgroundImage, and [alt] should be g.name.
+      Without them the cover stays blank and screen readers see nothing useful.
+    -->
     @if (g.backgroundImage) {
-      <div
-        class="detail__hero"
-        [style.background-image]="'url(' + g.backgroundImage + ')'"
-        role="img"
-        [attr.aria-label]="g.name"
-      ></div>
+      <img class="detail__hero" alt="Game cover — fix me" />
     }
 
     <header class="detail__header">
-      <h1 class="detail__title">{{ g.name }}</h1>
+      <!--
+        EXERCISE 7 — Interpolation
+        Replace the hardcoded text below with the value of g.name using
+        double curly braces.
+      -->
+      <h1 class="detail__title">Game title — fix me</h1>
+
       <div class="detail__meta">
         <span class="detail__meta-item">
           <mat-icon>event</mat-icon>
           {{ g.released ?? 'Unknown release' }}
         </span>
+
+        <!--
+          EXERCISE 11 — Method call inside interpolation
+          The rating below shows the placeholder "0.00". Replace 0.00 with the
+          real value from g, rounded to 2 decimals. You can call any method
+          inside {{ }} — try g.rating.toFixed(2).
+        -->
         <span class="detail__meta-item">
           <mat-icon>star</mat-icon>
-          {{ g.rating.toFixed(2) }} ({{ g.ratingsCount }} votes)
+          0.00 ({{ g.ratingsCount }} votes)
         </span>
-        @if (g.metacritic !== null) {
-          <span class="detail__meta-item">
-            <mat-icon>verified</mat-icon>
-            Metacritic {{ g.metacritic }}
-          </span>
-        }
+
+        <!--
+          EXERCISE 9 — Conditional with @if
+          Not every game on RAWG has a Metacritic score (g.metacritic can be
+          null). Wrap the span below in:
+            @if (g.metacritic !== null) { ... }
+          so it only renders when the score actually exists.
+        -->
+        <span class="detail__meta-item">
+          <mat-icon>verified</mat-icon>
+          Metacritic {{ g.metacritic }}
+        </span>
+
         @if (g.playtime > 0) {
           <span class="detail__meta-item">
             <mat-icon>schedule</mat-icon>
@@ -53,10 +74,17 @@
     @if (g.genres.length) {
       <section class="detail__section">
         <h2 class="detail__section-title">Genres</h2>
+        <!--
+          EXERCISE 10 — List rendering with @for
+          The chip set below is empty. Loop over g.genres (a string[]) and
+          render one <mat-chip>{{ genre }}</mat-chip> per genre.
+
+            @for (genre of g.genres; track genre) {
+              <mat-chip>{{ genre }}</mat-chip>
+            }
+        -->
         <mat-chip-set>
-          @for (genre of g.genres; track genre) {
-            <mat-chip>{{ genre }}</mat-chip>
-          }
+          <!-- TODO: @for here -->
         </mat-chip-set>
       </section>
     }

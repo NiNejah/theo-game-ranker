@@ -146,4 +146,96 @@ private loadGames(): void {
   this.loadGames();
 }`,
   },
+  {
+    id: 7,
+    title: 'Show the game name in the detail page',
+    concept: 'Interpolation',
+    file: 'src/app/features/games/game-detail/game-detail.html',
+    question:
+      'On the game detail page, the <h1> currently shows hardcoded text. Inside the @else if block, the variable `g` holds the loaded game (a GameDetail). Display `g.name` using interpolation.',
+    hints: [
+      'Interpolation: {{ expression }}',
+      'You can read any property on g — try {{ g.name }}',
+    ],
+    stub: `<h1 class="detail__title">Game title — fix me</h1>`,
+    answer: `<h1 class="detail__title">{{ g.name }}</h1>`,
+  },
+  {
+    id: 8,
+    title: 'Bind the hero image src and alt',
+    concept: 'Property binding',
+    file: 'src/app/features/games/game-detail/game-detail.html',
+    question:
+      'The <img> tag below has no [src] and no [alt]. Bind [src] to g.backgroundImage so the cover loads, and [alt] to g.name so screen readers announce the right thing.',
+    hints: [
+      'Property binding: [propertyName]="expression"',
+      'You need two bindings on the same element: [src]="g.backgroundImage" and [alt]="g.name"',
+      'Note: <img alt="..."> uses a static string; <img [alt]="..."> binds an expression.',
+    ],
+    stub: `<img class="detail__hero" alt="Game cover — fix me" />`,
+    answer: `<img class="detail__hero" [src]="g.backgroundImage" [alt]="g.name" />`,
+  },
+  {
+    id: 9,
+    title: 'Show Metacritic only if it exists',
+    concept: 'Conditional rendering',
+    file: 'src/app/features/games/game-detail/game-detail.html',
+    question:
+      'Some games on RAWG do not have a Metacritic score (g.metacritic is null). Right now the page shows "Metacritic" with a blank number for those games. Wrap the Metacritic span in @if so it only renders when g.metacritic is not null.',
+    hints: [
+      'Block syntax: @if (condition) { ... }',
+      'The condition is plain TypeScript: g.metacritic !== null',
+    ],
+    stub: `<span class="detail__meta-item">
+  <mat-icon>verified</mat-icon>
+  Metacritic {{ g.metacritic }}
+</span>`,
+    answer: `@if (g.metacritic !== null) {
+  <span class="detail__meta-item">
+    <mat-icon>verified</mat-icon>
+    Metacritic {{ g.metacritic }}
+  </span>
+}`,
+  },
+  {
+    id: 10,
+    title: 'List every genre with @for',
+    concept: 'List rendering',
+    file: 'src/app/features/games/game-detail/game-detail.html',
+    question:
+      'The Genres section has an empty <mat-chip-set>. Loop over g.genres (a string[]) and render one <mat-chip>{{ genre }}</mat-chip> per genre.',
+    hints: [
+      'Block syntax: @for (item of items; track item) { ... }',
+      'When the array contains primitives (strings here), tracking by the value itself is fine: track genre',
+      'Inside <mat-chip>, render the value with {{ genre }}',
+    ],
+    stub: `<mat-chip-set>
+  <!-- TODO: @for here -->
+</mat-chip-set>`,
+    answer: `<mat-chip-set>
+  @for (genre of g.genres; track genre) {
+    <mat-chip>{{ genre }}</mat-chip>
+  }
+</mat-chip-set>`,
+  },
+  {
+    id: 11,
+    title: 'Format the rating with a method call',
+    concept: 'Template expressions',
+    file: 'src/app/features/games/game-detail/game-detail.html',
+    question:
+      'The rating currently shows "0.00" — a hardcoded placeholder. Replace it with the real rating from g, formatted to 2 decimal places. Inside interpolation you can call any plain method on the value.',
+    hints: [
+      'Numbers have a built-in method: number.toFixed(2) returns a string like "4.47".',
+      'Interpolation accepts method calls: {{ g.rating.toFixed(2) }}',
+    ],
+    stub: `<span class="detail__meta-item">
+  <mat-icon>star</mat-icon>
+  0.00 ({{ g.ratingsCount }} votes)
+</span>`,
+    answer: `<span class="detail__meta-item">
+  <mat-icon>star</mat-icon>
+  {{ g.rating.toFixed(2) }} ({{ g.ratingsCount }} votes)
+</span>`,
+  },
 ];
