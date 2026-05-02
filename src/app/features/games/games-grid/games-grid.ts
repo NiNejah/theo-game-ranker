@@ -1,14 +1,18 @@
 import { Component, input, output } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   GridOptions,
+  ModuleRegistry,
   RowClickedEvent,
   ValueFormatterParams,
   themeQuartz,
 } from 'ag-grid-community';
 
 import { Game } from '../../../core/models/game.model';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-games-grid',
