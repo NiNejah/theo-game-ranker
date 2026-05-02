@@ -20,13 +20,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/learn/learn-page/learn-page').then((m) => m.LearnPage),
     data: { showAnswers: false },
-  },
-  {
-    path: 'learn/answers',
-    title: 'Game Ranker — Solutions',
-    loadComponent: () =>
-      import('./features/learn/learn-page/learn-page').then((m) => m.LearnPage),
-    data: { showAnswers: true },
-  },
-  { path: '**', redirectTo: 'games' },
+  }
 ];
